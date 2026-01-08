@@ -10,7 +10,7 @@ supports add/remove, and performs radius search using math only (Haversine dista
 
 ## Installation
 ```bash
-npm install geojs
+npm install github:xxpaulorobertoxx/geojs
 ```
 
 ## Basic usage
@@ -19,6 +19,7 @@ import { addItem, removeItemById, findWithinRadius } from "geojs";
 
 const items = [];
 
+// addItem returns a new array with the item appended
 const withItem = addItem(items, {
   id: "poi-1",
   latitude: -23.55052,
@@ -26,7 +27,9 @@ const withItem = addItem(items, {
   data: { name: "Sao Paulo", kind: "city" }
 });
 
+// findWithinRadius returns only items inside the given radius in meters
 const nearby = findWithinRadius(withItem, -23.55052, -46.633308, 1000);
+// removeItemById removes items with the provided id
 const cleaned = removeItemById(withItem, "poi-1");
 ```
 
@@ -45,6 +48,7 @@ export default function MapPanel() {
 
   function addSample() {
     setItems((current) =>
+      // addItem returns a new array, so it's safe for React state updates
       addItem(current, {
         id: Date.now(),
         latitude: 40.7128,
@@ -55,6 +59,7 @@ export default function MapPanel() {
   }
 
   const nearby = useMemo(
+    // findWithinRadius filters points by distance using math only
     () => findWithinRadius(items, 40.7128, -74.006, 2000),
     [items]
   );
